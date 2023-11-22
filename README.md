@@ -1,3 +1,35 @@
+# Репозиторий с проектом
+
+[https://github.com/artitalk50/Async_API_sprint_1](https://github.com/artitalk50/Async_API_sprint_1)
+
+# Подготовка окружения
+
+## Зависимости
+
+Зависимости в [fastapi-solution/requirements](../../Async_API_sprint_1/fastapi-solution/requirements) разделены на базовые [base.txt](../../Async_API_sprint_1/fastapi-solution/requirements/base.txt) (необходимые для работы сервиса) и дополнительные, используемые в процессе разработки.
+
+Для установки полного набора можно использовать команду:
+
+`pip install -r fastapi-solution/requirements/dev.txt`
+
+## Pre-commit
+
+Для установки автоматических проверок кода (flake8, isort) перед коммитом можно использовать команду:
+
+`pre-commit install`
+
+# Запуск приложения
+
+Для запуска сервиса с api, Elastic Search, Redis и Nginx можно использовать команду:
+
+`docker compose up --build`
+
+Чтобы импортировать в Elastic тестовые данные о фильмах, жанрах и персонах с предыдущего спринта, можно использовать скрипт:
+
+`bash import_data.sh`
+
+После запуска должна открываться страница с документацией [http://127.0.0.1/api/openapi](http://127.0.0.1/api/openapi)
+
 # Проектная работа 4 спринта
 
 **Важное сообщение для тимлида:** для ускорения проверки проекта укажите ссылку на приватный репозиторий с командной работой в файле readme и отправьте свежее приглашение на аккаунт [BlueDeep](https://github.com/BigDeepBlue).

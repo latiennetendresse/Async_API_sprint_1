@@ -1,0 +1,62 @@
+version: "3.9"
+services:
+  elastic:
+    image: elasticsearch:8.7.1
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    networks:
+      - common
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    healthcheck:
+      test: ["CMD", "curl", "elastic:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  redis:
+    image: redis:7.0
+    volumes:
+      - redis_data:/data
+    networks:
+      - common
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  api:
+    build: ../../Async_API_sprint_1/fastapi-solution
+    networks:
+      - common
+    environment:
+      - ELASTIC_DSN=http://elastic:9200
+      - REDIS_DSN=redis://redis:6379
+      - REDIS_CACHE_EXPIRE_SECONDS
+      - LOG_LEVEL
+    depends_on:
+      elastic:
+        condition: service_healthy
+        restart: true
+      redis:
+        condition: service_healthy
+        restart: true
+
+  nginx:
+    image: nginx:1.24
+    volumes:
+      - ./fastapi-solution/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./fastapi-solution/nginx/conf.d:/etc/nginx/conf.d:ro
+    networks:
+      - common
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+
+volumes:
+  elastic_data:
+  redis_data:
+
+networks:
+  common:

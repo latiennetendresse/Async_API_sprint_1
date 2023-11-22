@@ -1,0 +1,7 @@
+-r base.txt
+
+bandit==1.7.2
+flake8==4.0
+flake8-bandit==2.1.2
+isort==5.12.0
+pre-commit==2.15.0
